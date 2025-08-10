@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Echo Tetris — Резонансные цепи</title>
+  <meta name="description" content="Echo Tetris — тетрис + фрактальные ветви + резонансные волны. Интерактивный лендинг-демо." />
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Three.js CDN -->
+  <script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">Echo<span> Tetris</span></div>
+    <nav class="nav">
+      <a href="#play">Играть</a>
+      <a href="#features">Фичи</a>
+      <a href="#controls">Контролы</a>
+      <a href="#mint">NFT / CBDC</a>
+    </nav>
+    <div class="header-actions">
+      <button id="playDemo">Открыть демо</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <canvas id="bgCanvas"></canvas>
+      <div class="hero-content">
+        <h1>Echo Tetris — <em>Резонансные цепи</em></h1>
+        <p>Тетрис встречается с фрактальной динамикой и теорией игр. Рискуй или сотрудничай — выбирай свою стратегию в бесконечном раннере.</p>
+        <div class="cta">
+          <button id="startButton">Запустить демо</button>
+          <button id="howTo">Как играть</button>
+        </div>
+        <div class="meta">
+          <span id="playsCounter">Загрузок: —</span>
+          <span id="localScore">Ваш рекорд: 0</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="play" class="play-section">
+      <div class="panel left">
+        <h2>Интерактивное демо</h2>
+        <p>Здесь запущен мини-движок: тетрис-блоки + резонансные волны по фрактальной сетке. Управление: клавиатура, касание, или джойстик.</p>
+        <div class="controls-row">
+          <label>Громкость <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6"></label>
+          <button id="resetStorage">Сбросить сохранения</button>
+        </div>
+        <div class="play-info">
+          <p>Поддержка контроллеров: <strong>Gamepad API</strong> (USB/Bluetooth). Попробуй подключить геймпад — и нажать кнопку!</p>
+          <div id="gamepadStatus" class="gamepad-status">Gamepad: —</div>
+        </div>
+        <div class="mint-row">
+          <button id="generateNFT">Генерировать NFT (симуляция)</button>
+          <button id="convertCBDC">Конвертировать очки → CBDC (симуляция)</button>
+        </div>
+      </div>
+
+      <div class="panel right">
+        <div id="gameContainer">
+          <canvas id="gameCanvas" width="640" height="360"></canvas>
+          <div id="overlayUI">
+            <div id="score">0</div>
+            <div id="combo">x1</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2>Фичи</h2>
+      <ul>
+        <li>Процедурные L-системы создают трассы</li>
+        <li>Блоки создают резонансные волны — влияют на платформы</li>
+        <li>Gamepad support: USB & Bluetooth</li>
+        <li>Local-first: все данные в LocalStorage / IndexedDB, с кнопкой "Сбросить всё"</li>
+        <li>Псевдо-NFT и CBDC-модуль — демонстрация пути монетизации (нужен бекенд для настоящих транзакций)</li>
+      </ul>
+    </section>
+
+    <section id="controls" class="controls">
+      <h2>Поддержка контроллеров</h2>
+      <p>Подключи контроллер, открой страницу, нажми кнопку на джойстике. Поддерживается карта кнопок с переназначением.</p>
+      <div id="mappingUI"></div>
+    </section>
+
+    <section id="mint" class="mint">
+      <h2>NFT / CBDC (демо)</h2>
+      <p>При достижении определённого порога очков игра предложит сгенерировать NFT-артефакт (JSON + PNG), который затем можно экспортировать. Настоящее минтование и перевод в CBDC требует внешней инфраструктуры — этот лендинг показывает только UX и client-side flow.</p>
+      <div id="mintResult"></div>
+      <div style="margin-top:12px">
+        <!-- explicit user-initiated wallet connection (optional) -->
+        <button id="connectWallet">Подключить кошелёк (опционально)</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>Echo Tetris — демо-проект. Все транзакции симулируются. Поддержка Gamepad API, WebAudio, WebGL.</small>
+  </footer>
+
+  <script src="/js/main.js" type="module"></script>
+</body>
+</html>
