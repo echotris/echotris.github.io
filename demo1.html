@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Echo Tetris — Fullscreen Demo</title>
+  <style>
+    /* full-screen page, no scrollbars */
+    html,body{
+      height:100%;
+      width:100%;
+      margin:0;
+      padding:0;
+      overflow:hidden; /* IMPORTANT: no page scrollbar */
+      background:#000;
+      font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* canvases fill the viewport */
+    canvas{
+      position:fixed;
+      left:0;
+      top:0;
+      width:100vw;
+      height:100vh;
+      display:block;
+    }
+
+    /* Fixed control panel overlay */
+    .control-panel {
+      position:fixed;
+      right:20px;
+      top:20px;
+      width:340px;
+      max-width:calc(100vw - 40px);
+      background: linear-gradient(180deg, rgba(8,12,20,0.85), rgba(4,6,10,0.75));
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      color:#eaf4ff;
+      padding:14px;
+      border-radius:12px;
+      z-index:999;
+      backdrop-filter: blur(6px) saturate(120%);
+    }
+
+    .control-panel h2 { margin:0 0 8px; font-size:16px; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+    .controls button { background:linear-gradient(90deg,#00e6ff,#ff6ad5); border:none; padding:8px 10px; color:#021; border-radius:8px; cursor:pointer; font-weight:700; }
+    .controls .ghost { background:transparent; color:#cfe9ff; border:1px solid rgba(255,255,255,0.06); padding:7px 9px; font-weight:600; }
+    .small { font-size:13px; color:#a9c7d6; }
+    #hud { display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+    #hud .badge { padding:6px 8px; background:rgba(255,255,255,0.03); border-radius:8px; font-weight:700; }
+    #msg { margin-top:8px; font-size:13px; color:#bcd8ea; min-height:18px; }
+    #nftPreview { margin-top:10px; max-width:100%; border-radius:8px; display:block; border:1px solid rgba(255,255,255,0.04); }
+    footer { position:fixed; left:20px; bottom:18px; color:rgba(255,255,255,0.06); font-size:12px; z-index:900; }
+    @media (max-width:420px){
+      .control-panel { left:10px; right:10px; top:12px; width:auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background canvas (procedural relief) -->
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <!-- Game canvas -->
+  <canvas id="gameCanvas" aria-label="Echo Tetris game"></canvas>
+
+  <!-- Fixed controls overlay -->
+  <div class="control-panel" role="region" aria-label="Game controls">
+    <h2>Echo Tetris — Режим Demo</h2>
+
+    <div class="controls">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn" class="ghost">Pause</button>
+      <button id="resetBtn" class="ghost">Reset</button>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;margin-top:6px;">
+      <label class="small">Volume:
+        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6" style="vertical-align:middle;margin-left:8px;">
+      </label>
+      <button id="genNFT" class="ghost">Generate NFT</button>
+      <button id="connectWallet" class="ghost">Connect Wallet</button>
+    </div>
+
+    <div id="hud">
+      <div id="scoreBox" class="badge">Score: 0</div>
+      <div id="balanceBox" class="badge">Wallet: Not connected</div>
+      <div id="seedBox" class="small" style="align-self:center">Seed: —</div>
+    </div>
+
+    <div id="msg" aria-live="polite">Controls: ← → ↓ • Space rotate • Enter hard drop</div>
+
+    <img id="nftPreview" style="display:none" alt="NFT preview">
+
+  </div>
+
+  <footer>Demo — client-side only. No page scrollbars. NFT is local snapshot.</footer>
+
+  <script type="module" src="demo.js"></script>
+</body>
+</html>
