@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Echo Tetris — Demo</title>
+  <style>
+    :root {
+      --bg: #071021;
+      --panel: rgba(255,255,255,0.03);
+      --accent: #00e6ff;
+      --accent2: #ff6ad5;
+      --muted: #9aa8b2;
+    }
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;background:linear-gradient(180deg,var(--bg),#03040a);color:#eaf4ff}
+    .wrap { display:flex; height:100vh; gap:18px; padding:18px; box-sizing:border-box; }
+    .panel { flex:1; background:var(--panel); border-radius:12px; padding:14px; box-shadow: 0 6px 24px rgba(0,0,0,0.5); display:flex; flex-direction:column; }
+    .panel.right { flex:1.6; position:relative; overflow:hidden; }
+    h1 { margin:6px 0 12px; font-size:20px; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+    button { background:linear-gradient(90deg,var(--accent),var(--accent2)); border:none; color:#012; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:600; }
+    button.ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted); }
+    label { color:var(--muted); font-size:14px; }
+    #hud { margin-top:8px; display:flex; gap:12px; align-items:center; color:#eaf4ff; }
+    #scoreBox { font-size:16px; font-weight:700; }
+    #balanceBox { font-size:14px; color: #ffd166; }
+    canvas { display:block; width:100%; height:100%; border-radius:10px; background:#02030a; }
+    #overlayUI { position:absolute; left:12px; top:12px; z-index:30; color:#fff; pointer-events:none; }
+    #nftPreview { max-width:200px; margin-top:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); }
+    .small { font-size:13px; color:var(--muted); }
+    footer { margin-top:auto; color:var(--muted); font-size:12px; }
+    @media (max-width:900px){ .wrap { flex-direction:column; } .panel.right { height:60vh; } }
+  </style>
+</head>
+<body>
+  <div style="padding:12px 18px;">
+    <h1>Echo Tetris — Демоверсия (отдельная страница)</h1>
+    <div class="small">Автоматически падающие тетромино, L-системы формируют рельеф, поверхность изменяется при фиксации фигур. Поддержка MetaMask (по клику).</div>
+  </div>
+
+  <div class="wrap">
+    <div class="panel left">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-weight:800;font-size:18px">Controls & Info</div>
+          <div class="small">Keyboard: ← → ↓ (soft drop) • Space (rotate) • Enter (hard drop)</div>
+        </div>
+        <div>
+          <button id="startBtn">Start</button>
+          <button id="pauseBtn" class="ghost">Pause</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="controls">
+          <label>Volume: <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6"></label>
+          <button id="resetBtn" class="ghost">Reset Data</button>
+          <button id="genNFT" class="ghost">Generate NFT (on page)</button>
+          <button id="connectWallet" class="ghost">Connect Wallet</button>
+        </div>
+
+        <div id="hud">
+          <div id="scoreBox">Score: 0</div>
+          <div id="balanceBox">Wallet: Not connected</div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <div class="small">L-system seed: <span id="seedBox">—</span></div>
+          <div id="msg" class="small" style="margin-top:6px;color:var(--muted)"></div>
+        </div>
+
+      </div>
+
+      <footer>
+        Demo: client-side only. NFT generation is local (PNG + metadata). For real minting/payments a backend is required.
+      </footer>
+    </div>
+
+    <div class="panel right" id="game-area">
+      <!-- Background canvas below game canvas to create layered visuals -->
+      <canvas id="bgCanvas"></canvas>
+      <canvas id="gameCanvas"></canvas>
+      <div id="overlayUI">
+        <div style="font-weight:700;font-size:20px">Echo Tetris</div>
+        <div style="margin-top:6px" class="small">Resonant fragments • L-systems driven terrain</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="demo.js"></script>
+</body>
+</html>
